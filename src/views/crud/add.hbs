@@ -1,0 +1,68 @@
+<script src="/js/validar.js"></script>
+<ul class="nav justify-content-end" id="footer-ul">
+    <li class="nav-item">
+    </li>
+    <li class="nav-item" id="GowPlay">
+    </li>
+</ul>
+{{!-- Modal agregar  --}}
+<!-- Modal -->
+    {{#each errors }}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    
+        {{@errors}}{{this}}
+    
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    
+    </div>
+    {{/each}}
+<div class="modal fade" id="agregar">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> Agregar Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <form action="/add" method="POST" onsubmit="return validar();">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="Nombre" name="nombre" placeholder="Nombres" value="{{nombre}}"
+                                autofocus>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="Apellido" name="apellido" placeholder="Apellidos" value="{{apellido}}"
+                                autofocus>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="Telefono" name="telefono" 
+                                placeholder="Telefono" value="{{telefono}}">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="Correo" name="correo" placeholder=" Correo" value="{{correo}}"
+                                autofocus>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="Contraseña" name="contraseña_us"
+                                placeholder=" password" autofocus>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button class="btn btn-success btn-block"> Guardar</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

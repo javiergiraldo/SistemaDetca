@@ -1,0 +1,30 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+body{
+    overflow : hidden; overflow-y : scroll; 
+overflow : -moz-scrollbars-vertical
+}
+.navi{
+    width: 100%;
+    margin-top:-50px;
+}
+.na{
+    width: 100%;
+    background-color: rgb(24, 23, 21);
+}
+.about{
+    display: flex;
+}
+.icon1{
+    color: wheat;
+}
+.vector{
+    height: 24rem;
+    width: 100%;
+    margin-top: -2rem;
+    opacity:0.2;
+}

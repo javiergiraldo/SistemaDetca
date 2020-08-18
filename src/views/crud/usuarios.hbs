@@ -1,0 +1,89 @@
+{{#if user.isAdmin }}
+{{>insert}}
+
+<link rel="stylesheet" href="/CSS/Tablas_Crud.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+<div class="container-mt-5">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2>Usuarios <b>Registrados</b></h2>
+                        <a href="/profile" class=""><i class="fas fa-arrow-circle-left"></i></a>
+                    </div>
+                    <style type="text/css">
+                        a:link,
+                        a:visited,
+                        a:active {
+                            text-decoration: none;
+                            outline: none;
+                            color: white;
+                        }
+                    </style>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-info add-new" data-toggle="modal" data-target="#agregar"><i
+                                class="fa fa-plus"></i> Agregar Nuevo
+                        </button></a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Telefono</th>
+                        <th>Correo</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        
+                    {{#each users}}
+                    <tr>
+                        <td>{{nombre}}</td>
+                        <td>{{apellido}}</td>
+                        <td>{{telefono}}</td>
+                        <td>{{correo}}</td>
+                        <td>
+                            <a href="/add/{{id_usuario}}" class="add" title="Add" data-toggle="tooltip"
+                                value="{{user._id}}"><i class="material-icons">&#xE03B;</i></a>
+                                
+                            <a href="/edit/{{this._id}}" class="edit" id="btnEdit" title="Edit" data-toggle="tooltip"><i
+                                    class="material-icons">&#xE254;</i></a>
+                                <form action="/delete/{{this._id}}?_method=DELETE" method="POST">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" onclick="return deleletconfig()" id="btnDelete" class="btn"><i class="fas fa-trash-alt"></i>
+                                </button>
+                                {{!-- <a class="delete" title="Delete" onclick="deleletconfigg()" type="submit" id="aler"
+                                    data-toggle="tooltip"><i class="material-icons" >&#xE872; </i></a> --}}
+                                </form>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    function deleletconfig() {
+        var del = confirm("Estas seguro que deseas eliminar el registro?");
+        if (del == true) {
+            alert("Registro Eliminado")
+        } else {
+            alert("Registro no eliminado")
+        }
+        return del;
+    };
+</script>
+
+<script src="/js/eliminarReg.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+</body>
+
+</html>
+{{/if}}

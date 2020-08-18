@@ -1,0 +1,39 @@
+<script src="/js/validar.js"></script>
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 col-md-offset-8">
+            <ul class="nav justify-content-end" id="footer-ul">
+                <li class="nav-item" id="GowPlay">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Detca</a>
+                </li>
+            </ul>
+
+            <div class="container" id="cont-edit">
+
+                <form action="/edit/{{user._id}}?_method=PUT" method="POST" onsubmit="return validar();">
+                <input type="hidden" name="_method" value="PUT">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="Nombre" name="nombre" placeholder="Nombre"
+                            value="{{user.nombre}}" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="Apellido" name="apellido" placeholder="Apellido"
+                            value="{{user.apellido}}">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="Telefono" name="telefono" placeholder="Telefono"
+                            value="{{user.telefono}}">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="Correo" name="correo" placeholder="Correo"
+                            value="{{user.correo}}">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-success btn-block"> Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

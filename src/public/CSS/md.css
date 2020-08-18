@@ -1,0 +1,144 @@
+@media only screen and (max-width:900px) {
+  .btn-menu>.fa-bars {
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 28px;
+    cursor: pointer;
+  }
+
+  .btn-menu>.fa-bars:hover {
+    color: var(--red);
+  }
+
+  .btn-menu>.fa-times {
+    color: var(--red);
+  }
+
+  .menu .list-container {
+    position: absolute;
+    top: 60px;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 60px);
+    background: #fff;
+  }
+
+  .menu .list-container .lists {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-top: 5px solid var(--red);
+  }
+
+  .menu .list-container .lists li {
+    width: 90%;
+    margin: 10px 0px;
+    border-bottom: 1px solid var(--red);
+    text-align: center;
+  }
+
+  .menu .list-container .lists li a {
+    font-size: 20px;
+  }
+
+  .menu .list-container .lists li a.activo {
+    background: none;
+    color: var(--red);
+  }
+
+  .menu .list-container .lists li a:hover {
+    background: none;
+    color: var(--red);
+  }
+
+}
+
+@media only screen and (max-width: 773px) {
+
+  /** IMG Header**/
+  .img-header .welcome h1 {
+    font-size: 40px;
+  }
+
+  .img-header .welcome>button {
+    width: 130px;
+    font-size: 20px;
+  }
+
+  /** Acerca de nosotros **/
+  .acerca-de .info-container .about-gallery {
+    flex-direction: column;
+  }
+
+  .acerca-de .info-container .about-gallery img {
+    width: 100%;
+  }
+
+  /** Nuestros proyectos **/
+  .our-projects .container-project .project-img img {
+    width: 80%;
+    margin-bottom: 30px;
+  }
+
+}
+
+@media only screen and (max-width: 590px) {
+
+  /** IMG Header **/
+  .img-header .welcome h1 {
+    font-size: 30px;
+  }
+
+  .img-header .welcome hr {
+    width: 100%px;
+  }
+
+  .img-header .welcome p {
+    font-size: 17px;
+  }
+
+  .img-header .welcome>button {
+    width: 100px;
+    font-size: 17px;
+  }
+}
+
+@media only screen and (max-width: 890px) {
+  .testimonios .box-testimonios .card-testimonio .card-img img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .testimonios .box-testimonios .card-testimonio {
+    width: 100%;
+  }
+
+  .testimonios .box-testimonios .card-testimonio .testimonio-text h4 {
+    font-size: 25px;
+  }
+
+  .testimonios .box-testimonios .card-testimonio .testimonio-text p {
+    font-size: 17px;
+    line-height: 35px;
+  }
+}
+
+@media only screen and (max-width:900px) {
+  .footer .formulario-content {
+    width: 85%;
+    padding: 20px;
+  }
+
+  .footer .formulario-content #formulario input {
+    width: 100%;
+  }
+
+  .footer .formulario-content #formulario textarea {
+    width: 100%;
+  }
+}

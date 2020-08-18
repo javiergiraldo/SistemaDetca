@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crear cuenta</title>
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    {{!-- <script src="/js/validar.js"></script> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="container" id="container2">
+        <div class="form-container sign-in-container">
+            <!-- mensajes de alertas para el usuario o correo ya registrados -->
+            {{!-- <% if (messageRegistro.length > 0) { %>
+            <div class="alert-danger"><%= messageRegistro %></div>
+            <% } %>
+            <% if (success.length > 0) { %>
+            <div class="alert-danger"><%= success %></div>
+            <% } %> --}}
+            <a href="/" class=""><i class="fas fa-arrow-circle-left"></i></a>
+            <form action="/signup" method="POST" onsubmit="return validar();">
+                <h1>Crear Cuenta</h1>
+                <input type="text" id="Nombre" name="nombre" placeholder="Nombres" value="{{nombre}}">
+                <input type="text" id="Apellido" name="apellido" placeholder="Apellidos" value="{{apellido}}">
+                <input type="text" id="Telefono" name="telefono" placeholder="Telefono" value="{{telefono}}">
+                <input type="email" id="Correo" name="correo" placeholder="Correo" value="{{correo}}">
+                {{!-- <input type="password"  name="adminCode" placeholder="Admin code"> --}}
+                <input type="password" id="Contraseña" name="contraseña_us" placeholder="Contraseña" value="{{contraseña_us}}">
+                <input type="password" id="Contraseña" name="confirm_contraseña_us" placeholder="Confirmar Contraseña" value="{{confirm_contraseña_us}}">
+                <button>Aceptar</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Bienvenido!</h1>
+                    <p>Para permanecer atento a todas las actualizaciones debes estar logeado</p>
+                    <button class="ghost" id="signIn">Ingresar</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Bienvenido</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</body>
+
+</html>

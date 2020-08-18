@@ -1,0 +1,45 @@
+#Notificaciones{
+    top:16px; 
+    margin-left:550px;
+    font-size:20px;
+    font-weight:bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color:#2e2b2b;
+    
+}
+
+#timeToRender{
+    position:absolute; 
+    top: 170px; 
+    font-size: 20px; 
+    font-weight: bold; 
+    background-color: #7580df;
+    padding: 0px 4px;
+    color: #ffffff;
+}
+
+#chartContainer{ 
+    position:relative;
+    margin-top:90px;
+    height: 300px; 
+    width: 100%;
+}
+
+#boton{
+    display:block;
+    top:300px;
+    padding:6px;
+    margin-left: 590px;
+    width: 150px;
+    border: 1px solid rgb(37, 32, 32);
+    color: rgb(49, 35, 35);
+    font-size:18px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 15px;
+}
+
+#actualizar{
+    display:block;
+    margin-left:570px;
+}

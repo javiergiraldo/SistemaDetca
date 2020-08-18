@@ -1,0 +1,33 @@
+<!doctype html>
+
+ <html lang="es">
+  <head>
+	  <meta charset="utf-8">
+	  <title>Notificaciones</title>
+	  <meta name="keywords" content="Reportajes, Fotografías, Ardillas">
+	  <meta name="description" content="Reportajes y fotografías de ardillas">
+	  <meta name="viewport" content ="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"> 
+	  <link rel="stylesheet" type= "text/css" href="css/grafico01.css">
+  </head>
+      <style>A {text-decoration: none;} </style> <!--se utiliza para quitar el subrayado en los hipervínculos-->
+   <body>
+        <div id="Notificaciones">
+           <h1>Notificaciones</h1>
+        </div>
+        <div id="chartContainer"></div>
+        <span id="timeToRender"></span>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        <script src="js/grafico01.js"></script>
+        <div id="actualizar">
+         <input type="button" value="Actualizar" onclick="location.reload()" 
+         style="font-family:Arial;font-size:11pt;width:200px;height:30px;
+         background:#ffffff;color:#000000;cursor:pointer;"/>
+       </div>
+        
+        <div id="retorno">
+            <p><a id="boton" href="index.html">Regresar</a></p>
+             
+        </div>
+        
+   </body>
+</html>

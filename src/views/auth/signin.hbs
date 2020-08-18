@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ingresar</title>
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <script src="/js/validarL.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-in-container">
+            <a href="/" class=""><i class="fas fa-arrow-circle-left"></i></a>
+            <form action="/signin" method="POST" onsubmit="return validarL();">
+                <h1>Ingresar</h1>
+                <input type="email" id="CorreoL" name="correo" placeholder="Correo">
+                <input type="password" id="ContraseñaL" name="contraseña_us" placeholder="Contraseña">
+                <a href="/signup">No tienes Cuenta? Registrarse</a></li>
+                <a href="/forgot">Olvidaste tu Contraseña?</a></li>
+                <button>Aceptar</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Bienvenido!</h1>
+                    <p>Para permanecer atento a todas las actualizaciones debes estar logeado</p>
+                    <button class="ghost" id="signIn">Ingresar</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Bienvenido</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</body>
+
+</html>
