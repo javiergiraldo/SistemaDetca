@@ -20,23 +20,24 @@ passport.use(new LocalStrategy({
         //                     return done(null, false, { message: 'Contraseña incorrecta' });
         //                 }
         //             });
-        const match = await user.matchPassword(contraseña_us);
-        if (match) {
-            return done(null, user);
-        } else {
-            return done(null, false, { message: 'Contraseña Incorrecta.' });
-        }
+        // const match = await user.matchPassword(contraseña_us);
+        // if (match) {
+        //     return done(null, user);
+        // } else {
+        //     return done(null, false, { message: 'Contraseña Incorrecta.' });
+        // }
+        //Match password
+        bcrypt.compare(contraseña_us, user.contraseña_us, (err, isMatch) => {
+            if (err) throw err;
+            if (isMatch) {
+                return done(null, user);
+            } else {
+                return done(null, false, { message: 'Contraseña incorrecta' });
+            }
+        });
     }
 }));
-    // Match password
-    // bcrypt.compare(contraseña_us, user.contraseña_us, (err, isMatch) => {
-    //     if (err) throw err;
-    //     if (isMatch) {
-    //         return done(null, user);
-    //     } else {
-    //         return done(null, false, { message: 'Contraseña incorrecta' });
-    //     }
-    // });
+ 
 
 // passport.use(new LocalStrategy(function (correo, contraseña_us, done) {
 //     User.findOne({ correo: correo }, function (err, user) {

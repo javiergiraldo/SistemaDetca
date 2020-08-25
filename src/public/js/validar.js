@@ -31,6 +31,11 @@ function validar() {
         swal("Error", "El campo Contraseña es demasiado largo", "error");
         return false;
     }
+        
+    else if (Contraseña.length <5) {
+         swal("Error", "El campo Contraseña es demasiado corto", "error");
+         return false;
+    }
     else if (Telefono.length > 15 && Telefono.length <=7 ) {
         swal("Error", "El campo Telefono es demasiado largo o demasiado corto", "error");
         return false;

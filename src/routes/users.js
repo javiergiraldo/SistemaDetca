@@ -57,21 +57,22 @@ router.post("/signup", async (req, res) => { //renderiza desde el get signin
         // });
         //const salt = await bcrypt.genSalt(10);
         //newUser.contraseña_us = await bcrypt.hash(contraseña_us, salt);
-        newUser.contraseña_us = await newUser.encryptPassword(contraseña_us);
-        await newUser.save();
-        req.flash("success_msg", "Acabas de ser Registrado.");
-        res.redirect("/signin");
-        // bcrypt.genSalt(10, (err, salt) => {
-        //     bcrypt.hash(newUser.contraseña_us, salt, (err, hash) => {
-        //         if (err) throw err;
-        //         newUser.contraseña_us = hash;
-        //         newUser.save().then(user => {
-        //             req.flash('success_msg , Acabas de ser Registrado');
-        //             res.redirect('/signin');
-        //         })
-        //             .catch(err => console.log(err));
-        //     });
-        // });
+        // newUser.contraseña_us = await newUser.encryptPassword(contraseña_us);
+        // await newUser.save();
+        // req.flash("success_msg", "Acabas de ser Registrado.");
+        // res.redirect("/signin");
+
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(newUser.contraseña_us, salt, (err, hash) => {
+                if (err) throw err;
+                newUser.contraseña_us = hash;
+                newUser.save().then(user => {
+                    req.flash("success_msg", " Acabas de ser Registrado");
+                    res.redirect('/signin');
+                })
+                    .catch(err => console.log(err));
+            });
+        });
         //await newUser.save();
         //req.flash('success_msg', 'Acabas de ser Registrado')
         //res.redirect('/signin')
@@ -165,23 +166,34 @@ router.get('/profile',isAuthenticated, (req, res) => {
                      return res.redirect('back');
                  }
                  if (req.body.contraseña_us === req.body.confirm_contraseña_us) {
-                     user.setPassword(req.body.contraseña_us, function (err, user) {
-                         if (err) {
-                             console.log(err)
-                             req.flash('error', 'Lo sentimos algo ha ido mal, intentalo nuevamente')
-                             return res.redirect('back')
-                         } else {
-                         user.contraseña_us = req.body.contraseña_us;
+                    //  user.setPassword(req.body.contraseña_us, function (err, user) {
+                    //      if (err) {
+                    //          console.log(err)
+                    //          req.flash('error', 'Lo sentimos algo ha ido mal, intentalo nuevamente')
+                    //          return res.redirect('back')
+                    //      } else {
+                         
+                           bcrypt.genSalt(10, (err, salt) => {
+                               bcrypt.hash(req.body.contraseña_us, salt, (err, hash) => {
+                                   if (err) throw err;
+                                   user.contraseña_us = hash;
+                                   user.save().then(user => {
+                                           req.flash("success_msg", " Contraseña Cambiada");
+                                           res.redirect('/signin');
+                                       })
+                                       .catch(err => console.log(err));
+                               });
+                           });
                          user.resetPasswordToken = undefined;
                          user.resetPasswordExpires = undefined;
                          console.log('contraseña_us' + user.contraseña_us + ' correo' + user)
-                         user.save(function (err) {
-                             req.logIn(user, function (err) {
-                                 done(err, user);
-                             });
-                         });
-                        }
-                     })
+                        //  user.save(function (err) {
+                        //      req.logIn(user, function (err) {
+                        //          done(err, user);
+                        //      });
+                        //  });
+                        //}
+                     //})
                 } else {
                      req.flash("error", "Las contraseñas no coinciden.");
                      return res.redirect('back');

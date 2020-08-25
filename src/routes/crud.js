@@ -2,10 +2,16 @@ const express = require('express');
 const router = express.Router();
 
 const User = require('../models/User');
+const admin = require('../routes/users');
 
 router.get('/usuarios', async (req, res) => {
-    const users = await User.find({}).lean()
-    res.render('crud/usuarios', { users });
+    const users = await User.find().lean()
+    if (users.isAdmin = true) {
+        res.render('crud/usuarios', { users });
+    } else {
+        req.flash("error_msg", "Acceso restringido.");
+        res.redirect('/profile');
+    }
 });
 
 router.get('/add', (req, res, next) => {
@@ -70,11 +76,13 @@ router.get('/edit/:id', async (req, res) => {
 router.put('/edit/:id', async (req, res) => {
     const { nombre, apellido, telefono, correo } = req.body;
     await User.findByIdAndUpdate(req.params.id, { nombre, apellido, telefono, correo });
+    req.flash('success_msg', 'Usuario Actualizado');
     res.redirect('/usuarios')
 });
 
 router.delete('/delete/:id', async (req, res) => {
     await User.findByIdAndDelete(req.params.id);
+    req.flash('error_msg', 'Usuario Eliminado');
     res.redirect('/usuarios')
 });
 
