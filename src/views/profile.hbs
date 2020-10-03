@@ -1,8 +1,10 @@
+{{!-- Vista del sistema deespues de estar logeado  --}}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <link rel="stylesheet" href="/CSS/sidebar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
@@ -52,7 +54,7 @@
 
     <section class="content" style="position: relative; top:11rem; left:0px;">
 
-        <canvas id='myChart'></canvas>
+        <canvas id='myChart' width="100" height="40"></canvas>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
         <script src="/socket.io/socket.io.js" charset="utf-8"></script>
         <!--llamando websockets -->
@@ -71,21 +73,31 @@
             });
 
             // Graficos en tiempo real libreria chart.js
-
-            var ctx = document.getElementById('myChart').getContext('2d');
-            var myChart = new Chart(ctx, { //Nuevo Grafico
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, { //Nuevo Grafico
 
                 type: 'line',
                 data: {
-                    labels: ['Serial'],
+                    labels: ['Fecha'],
                     datasets: [{
-                        label: 'Serial',
-                        backgroundColor: 'rgb(2,173,94)',
-                        BorderColor: 'rgb(52,73,94)',
-                        data: []
-                    }]
+                        label: 'Estadisticas',
+                        backgroundColor: 'rgb(66, 134, 244, 0.5)',
+                        borderColor : 'rgb(166, 134, 244, 0.5)',
+                        borderWidth : 2, 
+                        fill : false
+                    }],
                 },
-                options: {}
+            options: {
+        scales: {
+            xAxes: [{
+                time: {
+                    displayFormats: {
+                        quarter: 'MMM YYYY'
+                    }
+                }
+            }]
+        }
+    }
             });
         </script>
     </section>

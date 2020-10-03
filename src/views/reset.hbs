@@ -1,19 +1,22 @@
+{{!-- Vista para ingresar nueva contraseña --}}
 <div class="row">
+    <script src="/js/validarReset.js"></script>
     <div class="col-md-3 offset-3 mt-5">
-        <form action="/reset/{{token}}"  method="POST">
+        <form action="/reset/{{token}}" method="POST" class="form" role="form" autocomplete="off" onsubmit="return validarReset();">
             <legend>Recuperacion de contraseña</legend>
             <div class="form-group">
                 <label for="contraseña_us">Nueva contraseña</label>
-                <input type="password" name="contraseña_us" value="" placeholder="Nueva contraseña" autofocus="autofocus"
+                <input id="Contraseña" type="password" name="contraseña_us" placeholder="Nueva contraseña" autofocus="autofocus"
                     class="form-control">
             </div>
             <div class="form-group">
                 <label for="contraseña_us">Confirmar contraseña</label>
-                <input type="password" name="confirm_contraseña_us" value="" placeholder="Confirmar contraseña" class="form-control" />
+                <input id="Contraseña_confirm" type="password" name="confirm_contraseña_us" value="" placeholder="Confirmar contraseña" class="form-control" />
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Actualizar contraseña</button>
+                <button name="recover-submit" type="submit" class="btn btn-primary">Actualizar contraseña</button>
             </div>
         </form>
     </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </div>

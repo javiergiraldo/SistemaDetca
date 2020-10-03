@@ -1,10 +1,14 @@
+{{!-- Vista de recupera la contraseña e ingresar un correo valido --}}
+
 <div class="form-gap"></div>
+
 <style type="text/css">
     .form-gap {
         padding-top: 12em;
     }
 </style>
 <div class="container offset-5">
+    <script src="/js/validarC.js"></script>
     <div class="row">
         <div class="col-md-4 col-md-offset-8">
             <div class="panel panel-default">
@@ -16,13 +20,14 @@
                         <div class="panel-body">
 
                             <form action="/forgot" method ="POST" id="register-form" role="form" autocomplete="off" class="form"
-                                method="post">
+                                method="post" onsubmit="return validarC();">
                                 <div class="form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i
                                                 class="glyphicon glyphicon-envelope color-blue"></i></span>
-                                        <input id="email" name="correo" placeholder="Correo" class="form-control"
-                                            type="email">
+                                        {{!-- <input id="email" name="correo" placeholder="Correo" class="form-control"
+                                            type="email"> --}}
+                                            <input id="CorreoL" name="correo" placeholder="Correo" class="form-control" type="email">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -38,8 +43,5 @@
             </div>
         </div>
     </div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </div>
-
-<script>
-
-</script>

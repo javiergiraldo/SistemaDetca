@@ -18,7 +18,8 @@ router.get('/add', (req, res, next) => {
     res.render('crud/add');
 });
 
-router.post("/add", async (req, res) => { //renderiza desde el get signin
+//metodo para agreagr ususarios como ADMIN 
+router.post("/add", async (req, res) => {
     const {nombre, apellido,telefono,correo,contraseña_us,confirm_contraseña_us} = req.body;
     //eval(require('locus'))
     const errors = [];
@@ -26,13 +27,14 @@ router.post("/add", async (req, res) => { //renderiza desde el get signin
         errors.push({
             text: 'Inserta tu Nombre'
         });
-        //req.flash('error', 'Inserta tu nombre');
     }
+    //Confirmar contraseñas
     if (contraseña_us != confirm_contraseña_us) {
         errors.push({
             text: 'Contraseñas no coinciden'
         });
     }
+    //Validar errores
     if (errors.length > 0) {
         res.render('crud/add', {
             errors,
@@ -43,6 +45,7 @@ router.post("/add", async (req, res) => { //renderiza desde el get signin
             contraseña_us,
             confirm_contraseña_us
         })
+        //buscamos los correos de usuarios que no existan en la coleccion de la bd usuario
     } else {
         const CorreoUser = await User.findOne({
             correo: correo
@@ -61,6 +64,8 @@ router.post("/add", async (req, res) => { //renderiza desde el get signin
         if (req.body.adminCode === 'admin123') {
             newUser.isAdmin = true;
         }
+
+        //Encryptamos la contraseña
         newUser.contraseña_us = await newUser.encryptPassword(contraseña_us);
         await newUser.save();
         req.flash("success_msg", "Nuevo Usuario Registrado.");
@@ -68,11 +73,13 @@ router.post("/add", async (req, res) => { //renderiza desde el get signin
     }
 });
 
+//Metodo para renderizar la vista editar el usuario
 router.get('/edit/:id', async (req, res) => {
     const user = await User.findById(req.params.id).lean()
     res.render('crud/edit', { user });
 });
 
+//Metodo para enviar y guardar los datos del usuario a la bd
 router.put('/edit/:id', async (req, res) => {
     const { nombre, apellido, telefono, correo } = req.body;
     await User.findByIdAndUpdate(req.params.id, { nombre, apellido, telefono, correo });
@@ -80,11 +87,12 @@ router.put('/edit/:id', async (req, res) => {
     res.redirect('/usuarios')
 });
 
+//Metodo para eliminar usuarios ADMIN
 router.delete('/delete/:id', async (req, res) => {
     await User.findByIdAndDelete(req.params.id);
     req.flash('error_msg', 'Usuario Eliminado');
     res.redirect('/usuarios')
 });
 
-
+//exportamos el controlador
 module.exports = router;

@@ -1,9 +1,10 @@
+//Validaciones de login inicio sesion
 function validarL() {
     var CorreoL, ContraseñaL
     CorreoL = document.getElementById("CorreoL").value;
     ContraseñaL = document.getElementById("ContraseñaL").value;
     if (ContraseñaL === "" && CorreoL === "") {
-        swal("Error", "Campos sin llenar. ", "error");
+        swal("Error", "Por favor ingresar todos los campos. ", "error");
         return false;
     }
     else if (CorreoL === "") {

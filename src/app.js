@@ -7,12 +7,16 @@ const http = require("http"); //modulos de http
 const passport = require('passport');
 const flash = require("connect-flash"); //Modulos para los mensajes
 const session = require("express-session");
+const cookiSession = require('cookie-session')
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
+const connectMongo = require('connect-mongo');
+const mongoose = require('mongoose');
 
 
 //Inicializando
+var expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 const app = express();
 require('./database');
 require('./config/passport');
@@ -27,9 +31,9 @@ const io = socketIo.listen(server); //Usamos el objeto websockets para que se in
 //Websockets actualizando
 
 //ARDUINO SERIAL PORT
-// io.on('connection', function (socket) {
-//     console.log('Nuevo socket conectado');
-// });
+io.on('connection', function (socket) {
+    console.log('Nuevo socket conectado');
+});
 
 // const Serialport = require('serialport');
 // const {
@@ -90,18 +94,29 @@ app.set('view engine', '.hbs');
 app.use(morgan('dev'));
 app.use(bodyParser.json()); //Recivir datos de tipo json
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+//app.use(cookieParser());
+//app.use(cookiSession());
 app.use(methodOverride('_method'));
+const MongoStore = connectMongo(session);
 app.use(session({
     secret: 'secret',
     resave: false,
     saveUninitialized: false,
-    cookie: {
-        expires: 600000
-    }
-    //store: new MongoStore({
-    //mongooseConnection: mongoose.connection
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
+//     secret: 'secret',
+//     resave: false,
+//     saveUninitialized: false
+//     //store: new MongoStore({
+//     //mongooseConnection: mongoose.connection
+// }));
+// app.use(cookiSession({
+//     secret: 'secret',
+//     resave: false,
+//     saveUninitialized: false
+//     //store: new MongoStore({
+//     //mongooseConnection: mongoose.connection
+// }));
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());

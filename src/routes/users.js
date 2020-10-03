@@ -1,3 +1,4 @@
+//Controlador del usuario
 const express = require('express');
 const router = express.Router();
 var async = require("async");
@@ -23,10 +24,10 @@ router.post("/signin", passport.authenticate('local', {
     failureFlash: true
 })); //renderiza desde el get signin
     
-
-router.post("/signup", async (req, res) => { //renderiza desde el get signin
+//metodo para renderizar la vista de registro
+router.post("/signup", async (req, res) => { 
     const { nombre, apellido, telefono, correo, contraseña_us, confirm_contraseña_us } = req.body;
-    //eval(require('locus'))
+    //Aqui validamos los errores y se guardan en un Array llamado errors
     const errors = [];
     if (nombre.length <= 0) {
          errors.push({text: 'Inserta tu Nombre'});
@@ -48,20 +49,7 @@ router.post("/signup", async (req, res) => { //renderiza desde el get signin
            if (req.body.adminCode === 'admin123') {
                newUser.isAdmin = true;
            }
-        // const newUser = new User({
-        //     nombre : req.body.nombre,
-        //     apellido: req.body.apellido,
-        //     telefono: req.body.telefono,
-        //     correo: req.body.correo,
-        //     contraseña_us: req.body.contraseña_us
-        // });
-        //const salt = await bcrypt.genSalt(10);
-        //newUser.contraseña_us = await bcrypt.hash(contraseña_us, salt);
-        // newUser.contraseña_us = await newUser.encryptPassword(contraseña_us);
-        // await newUser.save();
-        // req.flash("success_msg", "Acabas de ser Registrado.");
-        // res.redirect("/signin");
-
+        //Encryptamos la contraseña con las dependecias de bcrypt
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(newUser.contraseña_us, salt, (err, hash) => {
                 if (err) throw err;
@@ -73,29 +61,28 @@ router.post("/signup", async (req, res) => { //renderiza desde el get signin
                     .catch(err => console.log(err));
             });
         });
-        //await newUser.save();
-        //req.flash('success_msg', 'Acabas de ser Registrado')
-        //res.redirect('/signin')
     }
     
 });
-router.get('/logout', isAuthenticated, (req, res) => {
-    req.logOut();
-        res.redirect('/signin'); //Inside a callback… bulletproof!
-});
 
+//Metodo de cerrar sesion
+router.get('/logout', function (req, res) {
+    req.logout();
+    req.flash("success_msg", "Has cerrado session.");
+    res.redirect("/signin");
+});  
+
+//Metodo para validar y renderizar el ingreso al sistema
 router.get('/profile',isAuthenticated, (req, res) => {
     res.render('profile')
 });
 
+//metodo para renderizar la recuperacion de contraseña
  router.get('/forgot', (req, res) => {
      res.render('auth/forgot')
  });
 
-//   router.get('/reset', (req, res) => {
-//       res.render('reset')
-//  });
-
+//Aqui comenzamos a usar funciones y dependecias necesarias para recueperar contraseña y tokens desde la bd
  router.post('/forgot', function (req, res, next) {
      async.waterfall([
          function (done) {
@@ -104,28 +91,32 @@ router.get('/profile',isAuthenticated, (req, res) => {
                  done(err, token);
              });
          },
+         //buscamos dentro de las colecciones del usuario en la bd para validar que el correo exista o sea incorrecto
          function (token, done) {
              User.findOne({ correo: req.body.correo }, function (err, user) {
                  if (!user) {
-                     req.flash('error', 'No existe el correo , Digita uno ya registrado.');
+                     req.flash('error', 'No existe el correo o es incorrecto , Digita uno ya registrado.');
                      return res.redirect('/forgot');
                  }
+                 //Guardamos el token y le damos un tiempo para que el usuario tenga tiempo de ingresar al correo y e ingresar una nueva
                  user.resetPasswordToken = token;
-                 user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-
+                 user.resetPasswordExpires = Date.now() + 3600000; // 1 hora de tiempo
+                //Guardamos
                  user.save(function (err) {
                      done(err, token, user);
                  });
              });
          },
+         //Funcion de nodemailer para ingresar  el correo de soporte y enviar las instrucciones al usuario que desea recuperar su contraseñá
          function (token, user, done) {
              var trasporter = nodemailer.createTransport({
                  service: 'Gmail',
                  auth: {
                         user: 'detcasoporte@gmail.com',
-                        pass: 'sistemadetca2'
+                        pass: 'sistemadetca2020'
                  }
              });
+             //Mas instrucciones para el usuario
              var mailOptions = {
                  to: user.correo,
                  from: 'detcasoporte@gmail.com',
@@ -135,18 +126,21 @@ router.get('/profile',isAuthenticated, (req, res) => {
                      'http://' + req.headers.host + '/reset/' + token + '\n\n' +
                      'Si no lo has solicitado , por favor ignora este correo , Tu contraseña no sera cambiada.\n'
              };
+             //Finalmente enviamos el correo al usuario que este registrado y validado en la coleccion
              trasporter.sendMail(mailOptions, function (err) {
                  console.log('Correo enviado');
-                 req.flash('success_msg', 'Un correo se ha enviado a  ' + user.correo + ' Con las respectivas Instrucciones.');
+                 req.flash('success_msg', 'Un correo se ha enviado a  ' + user.correo + ' Con las respectivas Instrucciones para la recuperacion de contraseñá.');
                  done(err, 'done');
              });
          }
+         //Redirigimos al usuario a una nueva vista 
      ], function (err) {
          if (err) return next(err);
          res.redirect('/forgot');
      });
  });
 
+ //Metodo para validar el token no sea valido o ya este vencido o expirado , lo redirigimos a la vista anterior para que ingrese nuevamente el correo
  router.get('/reset/:token', function (req, res) {
      User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
          if (!user) {
@@ -157,22 +151,17 @@ router.get('/profile',isAuthenticated, (req, res) => {
      });
  });
 
+ //Metodo para validar el token desde una nueva vista no sea valido o ya este vencido o expirado , lo redirigimos a la vista anterior para que ingrese nuevamente el correo
  router.post('/reset/:token', function (req, res) {
      async.waterfall([
          function (done) {
              User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now() } }, function (err, user) {
                  if (!user) {
-                     req.flash('error', 'Password reset token is invalid or has expired.');
+                     req.flash('error', 'Token no valido.');
                      return res.redirect('back');
                  }
-                 if (req.body.contraseña_us === req.body.confirm_contraseña_us) {
-                    //  user.setPassword(req.body.contraseña_us, function (err, user) {
-                    //      if (err) {
-                    //          console.log(err)
-                    //          req.flash('error', 'Lo sentimos algo ha ido mal, intentalo nuevamente')
-                    //          return res.redirect('back')
-                    //      } else {
-                         
+                 //Ya si todo es correcto validamos la contraseñá en los campos de recuperacion
+                 if (req.body.contraseña_us === req.body.confirm_contraseña_us) {         
                            bcrypt.genSalt(10, (err, salt) => {
                                bcrypt.hash(req.body.contraseña_us, salt, (err, hash) => {
                                    if (err) throw err;
@@ -187,25 +176,19 @@ router.get('/profile',isAuthenticated, (req, res) => {
                          user.resetPasswordToken = undefined;
                          user.resetPasswordExpires = undefined;
                          console.log('contraseña_us' + user.contraseña_us + ' correo' + user)
-                        //  user.save(function (err) {
-                        //      req.logIn(user, function (err) {
-                        //          done(err, user);
-                        //      });
-                        //  });
-                        //}
-                     //})
                 } else {
                      req.flash("error", "Las contraseñas no coinciden.");
                      return res.redirect('back');
                  }
              });
          },
+         //Funciones para que enviarle al correo que puedo recuperar la contraseña correctamente
          function (user, done) {
              var trasporter = nodemailer.createTransport({
                  service: 'Gmail',
                  auth: {
                         user: 'detcasoporte@gmail.com',
-                        pass: 'sistemadetca2'
+                        pass: 'sistemadetca2020'
                  }
              });
              var mailOptions = {
@@ -213,7 +196,7 @@ router.get('/profile',isAuthenticated, (req, res) => {
                  from: 'detcasoporte@gmail.com',
                  subject: 'Tu contraseña ha sido cambiada ',
                  text: 'Hola,\n\n' +
-                     'Esta es una confirmacion de que tu contraseña con el correo ' + user.correo + ' ha sido cambiada.\n'
+                     'Esta es una confirmacion de que tu contraseña con el correo ' + user.correo + ' ha sido cambiada correctamente.\n'
              };
              trasporter.sendMail(mailOptions, function (err) {
                  req.flash('success_msg', 'Tu contraseña ha sido cambiada.');
@@ -225,4 +208,5 @@ router.get('/profile',isAuthenticated, (req, res) => {
      });
  });
 
+ //Exportamos el modulo a las rutas
 module.exports = router;

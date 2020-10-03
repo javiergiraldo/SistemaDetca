@@ -1,3 +1,4 @@
+//Validaciones del registro usuario
 function validar() {
     var Nombre, Apellido, Telefono, Correo, Contraseña, expresion;
     Nombre = document.getElementById("Nombre").value;
@@ -27,7 +28,7 @@ function validar() {
         swal("Error", "El campo Correo no es valido", "error");
         return false;
     }
-    else if (Contraseña.length > 60) {
+    else if (Contraseña.length > 12) {
         swal("Error", "El campo Contraseña es demasiado largo", "error");
         return false;
     }

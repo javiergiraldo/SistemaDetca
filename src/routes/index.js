@@ -1,3 +1,4 @@
+//Renderizamos la vista principal
 const express = require('express');
 const router = express.Router();
 
