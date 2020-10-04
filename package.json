@@ -1,5 +1,5 @@
 {
-  "name": "Nodejs-mongo",
+  "name": "nodejs-mongo",
   "version": "1.0.0",
   "description": "Testing mongo",
   "main": "app.js",
