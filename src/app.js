@@ -30,9 +30,31 @@ const io = socketIo.listen(server); //Usamos el objeto websockets para que se in
 //Arduino
 //Websockets actualizando
 
-//ARDUINO SERIAL PORT
+//Comunicacón con el puerto serial
 io.on('connection', function (socket) {
     console.log('Nuevo socket conectado');
+});
+
+const Serialport = require('serialport');
+const Readline = Serialport.parsers.Readline;
+
+const port = new Serialport('COM3', {
+    baudRate: 9600
+});
+
+const parser = port.pipe(new Readline({ delimeter: '\r\n' }));
+
+parser.on('open', function (){
+    console.log('connection is opened');
+});
+
+parser.on('data', function (data){
+        console.log(data);
+    io.emit('Alcohol', data);
+});
+
+parser.on('error', function (err){
+    console.log(err);
 });
 
 // const Serialport = require('serialport');
