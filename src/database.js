@@ -1,7 +1,7 @@
 //Conexion a la bd
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/Detca_d', {
+mongoose.connect('mongodb://localhost/Detca_db', {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,

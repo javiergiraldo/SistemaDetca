@@ -94,5 +94,5 @@ router.delete('/delete/:id', async (req, res) => {
     res.redirect('/usuarios')
 });
 
-//exportamos el controlador
+//Exportamos el controlador
 module.exports = router;
