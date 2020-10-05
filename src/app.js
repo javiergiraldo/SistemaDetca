@@ -45,7 +45,7 @@ const port = new Serialport('COM3', {
 const parser = port.pipe(new Readline({ delimeter: '\r\n' }));
 
 parser.on('open', function (){
-    console.log('connection is opened');
+    console.log('conexión establecida');
 });
 
 parser.on('data', function (data){
@@ -114,7 +114,7 @@ app.set('view engine', '.hbs');
 
 //Peticiones Middlewares
 app.use(morgan('dev'));
-app.use(bodyParser.json()); //Recivir datos de tipo json
+app.use(bodyParser.json()); //Recibir datos de tipo json
 app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(cookieParser());
 //app.use(cookiSession());
