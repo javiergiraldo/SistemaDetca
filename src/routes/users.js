@@ -49,7 +49,7 @@ router.post("/signup", async (req, res) => {
            if (req.body.adminCode === 'admin123') {
                newUser.isAdmin = true;
            }
-        //Encryptamos la contraseña con las dependecias de bcrypt
+        //Encriptamos la contraseña con las dependecias de bcrypt
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(newUser.contraseña_us, salt, (err, hash) => {
                 if (err) throw err;
@@ -72,17 +72,17 @@ router.get('/logout', function (req, res) {
     res.redirect("/signin");
 });  
 
-//Metodo para validar y renderizar el ingreso al sistema
+//Método para validar y renderizar el ingreso al sistema
 router.get('/profile',isAuthenticated, (req, res) => {
     res.render('profile')
 });
 
-//metodo para renderizar la recuperacion de contraseña
+//Método para renderizar la recuperacion de contraseña
  router.get('/forgot', (req, res) => {
      res.render('auth/forgot')
  });
 
-//Aqui comenzamos a usar funciones y dependecias necesarias para recueperar contraseña y tokens desde la bd
+//Aquí comenzamos a usar funciones y dependecias necesarias para recueperar contraseña y tokens desde la BD
  router.post('/forgot', function (req, res, next) {
      async.waterfall([
          function (done) {
@@ -91,7 +91,7 @@ router.get('/profile',isAuthenticated, (req, res) => {
                  done(err, token);
              });
          },
-         //buscamos dentro de las colecciones del usuario en la bd para validar que el correo exista o sea incorrecto
+         //Buscamos dentro de las colecciones del usuario en la bd para validar que el correo exista o sea incorrecto
          function (token, done) {
              User.findOne({ correo: req.body.correo }, function (err, user) {
                  if (!user) {
@@ -107,7 +107,7 @@ router.get('/profile',isAuthenticated, (req, res) => {
                  });
              });
          },
-         //Funcion de nodemailer para ingresar  el correo de soporte y enviar las instrucciones al usuario que desea recuperar su contraseñá
+         //Función de nodemailer para ingresar  el correo de soporte y enviar las instrucciones al usuario que desea recuperar su contraseña
          function (token, user, done) {
              var trasporter = nodemailer.createTransport({
                  service: 'Gmail',
@@ -140,7 +140,7 @@ router.get('/profile',isAuthenticated, (req, res) => {
      });
  });
 
- //Metodo para validar el token no sea valido o ya este vencido o expirado , lo redirigimos a la vista anterior para que ingrese nuevamente el correo
+ //Método para validar el token no sea valido o ya este vencido o expirado , lo redirigimos a la vista anterior para que ingrese nuevamente el correo
  router.get('/reset/:token', function (req, res) {
      User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
          if (!user) {
@@ -151,7 +151,7 @@ router.get('/profile',isAuthenticated, (req, res) => {
      });
  });
 
- //Metodo para validar el token desde una nueva vista no sea valido o ya este vencido o expirado , lo redirigimos a la vista anterior para que ingrese nuevamente el correo
+ //Método para validar el token desde una nueva vista no sea valido o ya este vencido o expirado , lo redirigimos a la vista anterior para que ingrese nuevamente el correo
  router.post('/reset/:token', function (req, res) {
      async.waterfall([
          function (done) {
@@ -160,7 +160,7 @@ router.get('/profile',isAuthenticated, (req, res) => {
                      req.flash('error', 'Token no valido.');
                      return res.redirect('back');
                  }
-                 //Ya si todo es correcto validamos la contraseñá en los campos de recuperacion
+                 //Ya si todo es correcto validamos la contraseña en los campos de recuperación
                  if (req.body.contraseña_us === req.body.confirm_contraseña_us) {         
                            bcrypt.genSalt(10, (err, salt) => {
                                bcrypt.hash(req.body.contraseña_us, salt, (err, hash) => {
@@ -196,7 +196,7 @@ router.get('/profile',isAuthenticated, (req, res) => {
                  from: 'detcasoporte@gmail.com',
                  subject: 'Tu contraseña ha sido cambiada ',
                  text: 'Hola,\n\n' +
-                     'Esta es una confirmacion de que tu contraseña con el correo ' + user.correo + ' ha sido cambiada correctamente.\n'
+                     'Esta es una confirmación de que tu contraseña con el correo ' + user.correo + ' ha sido cambiada correctamente.\n'
              };
              trasporter.sendMail(mailOptions, function (err) {
                  req.flash('success_msg', 'Tu contraseña ha sido cambiada.');
@@ -208,5 +208,5 @@ router.get('/profile',isAuthenticated, (req, res) => {
      });
  });
 
- //Exportamos el modulo a las rutas
+ //Exportamos el módulo a las rutas
 module.exports = router;
