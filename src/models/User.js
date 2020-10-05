@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 var passportLocalMongoose = require("passport-local-mongoose");
 
 const UserSchema = new Schema({
-     //Colecction o tabla usuario
+     //Colección o tabla usuario
     nombre: {type: String,  required: true},
     apellido: { type: String, required: true },
     telefono: { type: String, required: true },
@@ -17,7 +17,7 @@ const UserSchema = new Schema({
     //date: { type: Date, default: Date.now }
 });
 
-//Encryptar conbtraseña
+//Encriptar conbtraseña
 UserSchema.methods.encryptPassword = async (contraseña_us) => {
     const salt = await bcrypt.genSalt(10);
     const hash = bcrypt.hash(contraseña_us, salt);
