@@ -1,10 +1,10 @@
-const express = require('express'); //MODULOS HTPP
-const morgan = require('morgan');
+const express = require('express'); //MODULOS HTTP
+const morgan = require('morgan'); //Captura solicitudes HTTP para Nodejs
 const exphbs = require('express-handlebars'); //Plantila para render vistas
 const path = require('path');
 const socketIo = require("socket.io"); //Llamando desde la biblioteca websockets
-const http = require("http"); //modulos de http
-const passport = require('passport');
+const http = require("http"); //Módulos de http
+const passport = require('passport'); //Módulo de autenticación para la administración de sesiones
 const flash = require("connect-flash"); //Módulos para los mensajes
 const session = require("express-session");
 const cookiSession = require('cookie-session')
@@ -20,7 +20,7 @@ var expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 const app = express();
 require('./database');
 require('./config/passport');
-const server = http.createServer(app); //Se llaman los modulos del servidor requerido
+const server = http.createServer(app); //Se llaman los módulos del servidor requerido
 const io = socketIo.listen(server); //Usamos el objeto websockets para que se inicie en el server
 //require('./lib/passport');
 
@@ -100,6 +100,8 @@ parser.on('error', function (err){
 //     console.log(err);
 // });
 
+// const tipo_alertas = require('./models/tipo_alertas')
+
 //Config
 app.set('port', process.env.PORT || 4000);
 app.set('views', path.join(__dirname, 'views'));
@@ -174,6 +176,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 //      console.log('Servidor Conectado', app.get('port'));
 //  });
 
+//Para guardar los datos de arduino en la BD
+// app.post("/views/capturas", (req, res) => {
+//     console.log('POST /views/capturas')
+//     console.log(req.body)
+
+//     let capturas = new capturas()
+//     capturas.nombre = req.body.nombre
+//     capturas.cantidad = req.body.cantidad
+//     capturas.fecha = req.body.fecha
+//     capturas.save((err, capturasStored) => {
+//     if (err) res.status(500).send({message: `Error al guardar en la base de datos: ${err}` 
+
+//     res.status(200).send({capturas: capturasStored})
+
+// })
+// });
+
 server.listen(4000, () => {
-    console.log("Conexion en el puerto", 4000); //server ejecutando.
+    console.log("Conexión en el puerto", 4000); //server ejecutando.
 });

@@ -9,4 +9,4 @@ const tipo_alertasSchema = new Schema({
     fecha: {type: Date, required: true}
     });
 
-    module.exports=mongoose.model('tipo_alertas', tipo_alertasSchema)
+    module.exports=mongoose.model('tipo_alertas', tipo_alertasSchema) 

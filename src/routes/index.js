@@ -6,8 +6,8 @@ router.get('/', (req, res) => {
     res.render('index')
 });
 
-router.get('/', (req, res) => {
-    res.render('CapturaAlcohol')
+router.get('/capturas', (req, res) => {
+    res.render('capturas')
 });
 
 module.exports = router;
