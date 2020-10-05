@@ -1,3 +1,4 @@
+//Modelo usuario para usarse en varias rutas de la app
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const bcrypt = require('bcryptjs');
@@ -17,15 +18,14 @@ const UserSchema = new Schema({
     //date: { type: Date, default: Date.now }
 });
 
-//Encriptar conbtraseña
+//Creamos metodo para Encriptar contraseña
 UserSchema.methods.encryptPassword = async (contraseña_us) => {
     const salt = await bcrypt.genSalt(10);
     const hash = bcrypt.hash(contraseña_us, salt);
     return hash;
 };
 
-
-
+//Creamos metodo para comparar contraseñas de texto plano y encryptada
 UserSchema.methods.matchPassword = async function (contraseña_us) {
     return await bcrypt.compare(contraseña_us, this.contraseña_us);
 };

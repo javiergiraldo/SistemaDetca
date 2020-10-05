@@ -31,30 +31,36 @@
                     </div>
                 </div>
             </div>
-            <table class="table table-bordered">
+            {{!-- //Tablas mostradas en la vista Admin  --}}
+            <table class="table table-bordered"> 
                 <thead>
                     <tr>
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>Telefono</th>
                         <th>Correo</th>
-                        <th>Actions</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                         
-                    {{#each users}}
+                       {{!-- //Ciclo para mostrar los usuarios guardados en la Base de Datos  --}}
+                    {{#each users}} 
                     <tr>
                         <td>{{nombre}}</td>
                         <td>{{apellido}}</td>
                         <td>{{telefono}}</td>
                         <td>{{correo}}</td>
                         <td>
-                            <a href="/add/{{id_usuario}}" class="add" title="Add" data-toggle="tooltip"
-                                value="{{user._id}}"><i class="material-icons">&#xE03B;</i></a>
-                                
+                            {{!-- Para agregar usuario --}}
+                            <a href="/add/{{id_usuario}}" class="add" title="Add" data-toggle="tooltip" 
+                                value="{{user._id}}"><i class="material-icons">&#xE03B;</i></a> 
+
+                             {{!-- Para editar usuario    --}}
                             <a href="/edit/{{this._id}}" class="edit" id="btnEdit" title="Edit" data-toggle="tooltip"><i
                                     class="material-icons">&#xE254;</i></a>
+
+                                {{!-- para eliminar usuario --}}
                                 <form action="/delete/{{this._id}}?_method=DELETE" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <button type="submit" onclick="return deleletconfig()" id="btnDelete" class="btn"><i class="fas fa-trash-alt"></i>
@@ -70,6 +76,7 @@
         </div>
     </div>
 </div>
+{{!-- Condición para eliminar registros --}}
 <script>
     function deleletconfig() {
         var del = confirm("Estas seguro que deseas eliminar el usuario?");

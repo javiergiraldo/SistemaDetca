@@ -1,3 +1,4 @@
+{{!-- Vista para arduino en tiempo real en pantalla --}}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,12 +16,13 @@
             background: #34495e;
         }
     </style>
-    {{!-- <canvas id="myChart" width="400" height="120"></canvas> --}}
+    
 </head>
 <body>
-
+{{!-- Tarjeta de bootstrap para mostrar en pantalla --}}
     <div class="card mb-3">
         <div class="card-body">
+            {{!-- EL id es para traer info desde captura.js --}}
             <h1 id="Alcohol" class="display-l p-4"></h1>
           <p class="card-text">Estas son medidas de Alcohol, tomadas y leídas en miligramos sobre litro</p>
           <p class="card-text"><small class="text-muted">Se inicia la alerta cuando excede los 10.5 mg/L</small></p>
@@ -28,17 +30,7 @@
         </div>
     </div>    
 
-     {{!-- <div class="container">
-        <div class="row justify-content-center align-self-center">
-            <div class="card">
-                <h1 id="Alcohol" class="display-l p-4"></h1>
-            </div>
-        </div>
-    </div>  --}}
-
-    {{!-- <canvas id="myChart" width="400" height="400"></canvas> --}}
-    
-    {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script> --> --}}
+     
     <script src="/socket.io/socket.io.js" charset="utf-8"></script>
     <script src="/js/captura.js" charset="utf-8"></script>
     

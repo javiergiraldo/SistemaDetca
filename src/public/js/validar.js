@@ -7,6 +7,7 @@ function validar() {
     Correo = document.getElementById("Correo").value;
     Contraseña = document.getElementById("Contraseña").value;
     expresion = /\w+@\w+\.+[a-z]/; //Expresion apra validar los correos
+    const expresion2 = new RegExp('^[A-Z]+$', 'i'); //Expresion apra validar textos
 
     if (Nombre === "" || Apellido === "" || Telefono === "" || Correo === "" || Contraseña === "") {
         swal ("Error", "Todos Los campos son obligatorios", "error");
@@ -18,6 +19,15 @@ function validar() {
     }
     else if (Apellido.length > 20) {
         swal("Error", "El campo Apellido es demasiado largo", "error");
+        return false;
+    }
+    else if (!expresion2.test(Nombre)) {
+        swal("Error", "El campo Nombre solo se permite texto", "error");
+        return false;
+    }
+        
+    else if (!expresion2.test(Apellido)) {
+        swal("Error", "El campo Apellido solo se permite texto", "error");
         return false;
     }
     else if (Correo.length > 30) {

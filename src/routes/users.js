@@ -1,23 +1,28 @@
 //Controlador del usuario
-const express = require('express');
-const router = express.Router();
-var async = require("async");
-var crypto = require("crypto");
-const bcrypt = require('bcryptjs');
-var nodemailer = require("nodemailer");
-const {isAuthenticated} = require('../helpers/auth')
+const express = require('express');//usamos express para ejcutar el servidor
+const router = express.Router();//Usamos la ruta de express
 
+var async = require("async");//Usar las funciones asyncronas
+var crypto = require("crypto");//encryptar los tokens
+const bcrypt = require('bcryptjs');//Encryptar contraseña
+var nodemailer = require("nodemailer");//Dependencia para reuceprar contraseña por correo
+const {isAuthenticated} = require('../helpers/auth')//Usamos helpers para autenticar rutas
+
+//Usamos modelo y passport de usuario
 const User = require('../models/User');
 const passport = require('passport');
 
+//Metodo para renderizar vista de registro
 router.get('/signup',  (req, res) => {
     res.render('auth/signup')
 });
 
-router.get("/signin", (req, res) => { //renderiza desde el get signin
+//Metodo para renderizar login
+router.get("/signin", (req, res) => { //renderiza desde el metodo logeo
     res.render("auth/signin"); //Lo muestra en el server el login
 });
 
+//Metodo para ejecutar login
 router.post("/signin", passport.authenticate('local', {
     successRedirect: '/profile',
     failureRedirect: '/signin',
@@ -37,6 +42,7 @@ router.post("/signup", async (req, res) => {
         errors.push({text: 'Contraseñas no coinciden' });
         //req.flash('error', 'Contraseñas no coinciden');
     }
+    //condicion para validar errores
     if (errors.length > 0) {
             res.render('auth/signup', {errors,nombre,apellido,telefono,correo,contraseña_us,confirm_contraseña_us})
     } else {
@@ -45,6 +51,7 @@ router.post("/signup", async (req, res) => {
             req.flash('error_msg', 'El correo ya esta registrado, ingresa otro nuevamente');
             res.redirect('/signup');
         }
+        //Guardamos nuevo usuario
         const newUser = new User({ nombre, apellido, telefono, correo, contraseña_us });
            if (req.body.adminCode === 'admin123') {
                newUser.isAdmin = true;
@@ -58,6 +65,7 @@ router.post("/signup", async (req, res) => {
                     req.flash("success_msg", " Acabas de ser Registrado");
                     res.redirect('/signin');
                 })
+                //capturar errores desde consola
                     .catch(err => console.log(err));
             });
         });
@@ -173,6 +181,7 @@ router.get('/profile',isAuthenticated, (req, res) => {
                                        .catch(err => console.log(err));
                                });
                            });
+                           //para validar los tokens
                          user.resetPasswordToken = undefined;
                          user.resetPasswordExpires = undefined;
                          console.log('contraseña_us' + user.contraseña_us + ' correo' + user)
@@ -191,6 +200,7 @@ router.get('/profile',isAuthenticated, (req, res) => {
                         pass: 'sistemadetca2020'
                  }
              });
+             //Usamos la opcion de nodemailer para enviar otro correo si se deseas
              var mailOptions = {
                  to: user.correo,
                  from: 'detcasoporte@gmail.com',

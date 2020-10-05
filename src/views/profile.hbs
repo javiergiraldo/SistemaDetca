@@ -1,4 +1,4 @@
-{{!-- Vista del sistema deespues de estar logeado  --}}
+{{!-- Vista del sistema después de estar logeado  --}}
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
 
@@ -13,7 +13,7 @@
 <body>
   
     <input type="checkbox" id="check">
-    <!--header area start-->
+    <!--header área de inicio-->
     <header>
         <label for="check">
             <i class="fas fa-bars" id="sidebar_btn"></i>
@@ -25,32 +25,28 @@
             <a href="/logout" class="logout_btn">Cerrar sesion</a></li>
         </div>
     </header>
-    <!--header area end-->
-    <!--sidebar start-->
+    <!--header área fin-->
+    <!--sidebar comienzo-->
     <div class="sidebar">
         <center>
-            {{#if user.isAdmin }}
+            {{!-- //Condición para el logeo Administrador --}}
+            {{#if user.isAdmin }} 
             <h3>Bienvenido Admin </h4>
             {{else}}
                 
-            <h3>Bienvenido {{user.nombre}}</h3>
+             {{!-- //Condición para el logeo de usuario    --}}
+            <h3>Bienvenido {{user.nombre}}</h3> 
             {{/if}}
-            <!-- <h4><%= user.username %></h4> -->
-            <!-- <img src="1.png" class="profile_image" alt=""> -->
-            <!-- <h4><%= user.username %></h4>  -->
+            
         </center>
-        <a href="/capturas"><i class="fas fa-desktop"></i><span>Datos</span></a>
-        {{#if user.isAdmin}} <!--- Si es Admin -->
+        {{!-- //Redirección a la vista de bootstrap arduino --}}
+        <a href="/capturas"><i class="fas fa-desktop"></i><span>Datos</span></a> 
+        {{#if user.isAdmin}} <!--- Si es Admin se mostrará esta vista, de lo contrario, no -->
         <a href="/usuarios"><i class="fas fa-desktop"></i><span>Usuarios</span></a>
         {{/if}}
-
-        <!-- <a href="#"><i class="fas fa-cogs"></i><span>Components</span></a>
-        <a href="#"><i class="fas fa-table"></i><span>Tables</span></a>
-        <a href="#"><i class="fas fa-th"></i><span>Forms</span></a>
-        <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
-        <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a> -->
+        
     </div>
-    <!--sidebar end-->
+    <!--sidebar fin-->
 
     <section class="content" style="position: relative; top:11rem; left:0px;">
 
@@ -72,9 +68,9 @@
                 myChart.update();
             });
 
-            // Graficos en tiempo real libreria chart.js
+            //Gráficos en tiempo real librería chartjs
             const ctx = document.getElementById('myChart').getContext('2d');
-            const myChart = new Chart(ctx, { //Nuevo Grafico
+            const myChart = new Chart(ctx, { //Nuevo Gráfico
 
                 type: 'line',
                 data: {

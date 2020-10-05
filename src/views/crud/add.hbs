@@ -19,6 +19,7 @@
     
     </div>
     {{/each}}
+    {{!-- Desde aquí comienza mostrar campos para ingresar datos de usuario  --}}
 <div class="modal fade" id="agregar">
     <div class="modal-dialog modal-lg">
         <div class="modal-content ">
@@ -30,6 +31,7 @@
             </div>
             <div class="modal-body">
                 <div class="card-body">
+                    {{!-- Nos envía una vista para agregar los usuarios --}}
                     <form action="/add" method="POST" onsubmit="return validar();">
                         <div class="form-group">
                             <input type="text" class="form-control" id="Nombre" name="nombre" placeholder="Nombres" value="{{nombre}}"

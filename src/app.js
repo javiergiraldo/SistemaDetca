@@ -1,18 +1,18 @@
 const express = require('express'); //MODULOS HTTP
 const morgan = require('morgan'); //Captura solicitudes HTTP para Nodejs
 const exphbs = require('express-handlebars'); //Plantila para render vistas
-const path = require('path');
+const path = require('path'); //Para permitir excepciones del Sistema
 const socketIo = require("socket.io"); //Llamando desde la biblioteca websockets
 const http = require("http"); //Módulos de http
 const passport = require('passport'); //Módulo de autenticación para la administración de sesiones
 const flash = require("connect-flash"); //Módulos para los mensajes
-const session = require("express-session");
-const cookiSession = require('cookie-session')
-const bodyParser = require('body-parser');
-const methodOverride = require('method-override');
+const session = require("express-session"); // Guardar en la BD la sesión del usuario
+const cookiSession = require('cookie-session') //Para borrar las cookies del sistema
+const bodyParser = require('body-parser'); 
+const methodOverride = require('method-override'); //Para enviar requisitos PUT en express
 const cookieParser = require('cookie-parser');
-const connectMongo = require('connect-mongo');
-const mongoose = require('mongoose');
+const connectMongo = require('connect-mongo');// Conexión a mongodb
+const mongoose = require('mongoose');//Dependencia para trabajar estructuras y documentos
 
 
 //Inicializando
@@ -23,9 +23,6 @@ require('./config/passport');
 const server = http.createServer(app); //Se llaman los módulos del servidor requerido
 const io = socketIo.listen(server); //Usamos el objeto websockets para que se inicie en el server
 //require('./lib/passport');
-
-//Password y correo
-
 
 //Arduino
 //Websockets actualizando
@@ -56,7 +53,7 @@ parser.on('data', function (data){
 parser.on('error', function (err){
     console.log(err);
 });
-
+//__________________________________________
 // const Serialport = require('serialport');
 // const {
 //     text
@@ -67,20 +64,20 @@ parser.on('error', function (err){
 //     baudRate: 9600
 // });
 
-// port.on('open', function () {
-//     console.log('Puerto serial conectado');
-// });
+port.on('open', function () {
+    console.log('Puerto serial conectado');
+});
 
-// port.on('data', function (data) {
-//     //console.log(data.toString());
-//     io.emit('arduino:data', {
-//         value: data.toString()
-//     });
-// });
+port.on('data', function (data) {
+    //console.log(data.toString());
+    io.emit('arduino:data', {
+        value: data.toString()
+    });
+});
 
-// port.on('err', function (err) {
-//     console.log(err.message);
-// });
+port.on('err', function (err) {
+    console.log(err.message);
+});
 
 //SENSOR
 // const parser = port.pipe(new Readline({
@@ -102,7 +99,7 @@ parser.on('error', function (err){
 
 // const tipo_alertas = require('./models/tipo_alertas')
 
-//Config
+//Configuraciones del servidor y puertos necesarios para ejecutarse
 app.set('port', process.env.PORT || 4000);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', exphbs({
@@ -114,7 +111,7 @@ app.engine('.hbs', exphbs({
 }));
 app.set('view engine', '.hbs');
 
-//Peticiones Middlewares
+//Peticiones para usarse en toda la aplicacion
 app.use(morgan('dev'));
 app.use(bodyParser.json()); //Recibir datos de tipo json
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -148,7 +145,7 @@ app.use(flash());
 
 // app.use(express.urlencoded({ extended: false }));
 
-//Variables Globales Autenticar
+//Variables Globales Autenticar y recibir mensajes en las vistas
 app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg = req.flash('error_msg');
@@ -157,9 +154,7 @@ app.use((req, res, next) => {
     next();
 });
 
-
-
-//Routes
+//Rutas principales que necestan ser llamdas desde el servidor
 app.use(require('./routes/index'));
 app.use(require('./routes/users'));
 app.use(require('./routes/crud'));
@@ -167,8 +162,7 @@ app.use(require('./routes/crud'));
 //app.use(require('./routes/crud'));
 // app.use(require('./views'));
 
-
-//Public files
+//Archivos publicos como CSS Y JS
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Iniciando Servidor
@@ -177,6 +171,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //  });
 
 //Para guardar los datos de arduino en la BD
+
 // app.post("/views/capturas", (req, res) => {
 //     console.log('POST /views/capturas')
 //     console.log(req.body)
@@ -193,6 +188,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // })
 // });
 
+//Usamos el servidore con su puerto
 server.listen(4000, () => {
     console.log("Conexión en el puerto", 4000); //server ejecutando.
 });

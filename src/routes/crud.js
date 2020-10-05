@@ -1,6 +1,8 @@
+//Ruta para hacer el CRUD 
 const express = require('express');
 const router = express.Router();
 
+//Modelos necesario para usar
 const User = require('../models/User');
 const admin = require('../routes/users');
 
@@ -14,6 +16,7 @@ router.get('/usuarios', async (req, res) => {
     }
 });
 
+//Metodo para renderizar la vista de agregar
 router.get('/add', (req, res, next) => {
     res.render('crud/add');
 });
@@ -47,13 +50,14 @@ router.post("/add", async (req, res) => {
         })
         //Buscamos los correos de usuarios que no existan en la colección de la BD usuario
     } else {
-        const CorreoUser = await User.findOne({
+        const CorreoUser = await User.findOne({ //Buscar el correo
             correo: correo
         });
         if (CorreoUser) {
             req.flash('error_msg', 'El correo ya esta registrado, ingresa otro nuevamente');
-            res.redirect('/add');
+            res.redirect('/add'); //redirigimos a la vista anterior
         }
+        //Creamos el usuario
         const newUser = new User({
             nombre,
             apellido,
@@ -61,6 +65,7 @@ router.post("/add", async (req, res) => {
             correo,
             contraseña_us
         });
+        //En caso d evalidar un admin mediante la vista de html
         if (req.body.adminCode === 'admin123') {
             newUser.isAdmin = true;
         }
