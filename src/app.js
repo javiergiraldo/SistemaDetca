@@ -30,7 +30,7 @@ const io = socketIo.listen(server); //Usamos el objeto websockets para que se in
 //Arduino
 //Websockets actualizando
 
-//Comunicacón con el puerto serial
+//Comunicación con el puerto serial
 io.on('connection', function (socket) {
     console.log('Nuevo socket conectado');
 });
@@ -163,7 +163,7 @@ app.use(require('./routes/users'));
 app.use(require('./routes/crud'));
 //app.use('/Cruds', require('./routes/crud'));
 //app.use(require('./routes/crud'));
-//app.use(require('./views'))
+// app.use(require('./views'));
 
 
 //Public files
