@@ -16,7 +16,7 @@ passport.use(new LocalStrategy({
     if (!user) {
         return done(null, false, { message: "El Correo no existe o es incorrecto, Intentelo nuevamente" });
     } else {
-        //Usamos el metodo para comparar las contraseñas
+        //Usamos el método para comparar las contraseñas
         bcrypt.compare(contraseña_us, user.contraseña_us, (err, isMatch) => {
             if (err) throw err;
             if (isMatch) {
